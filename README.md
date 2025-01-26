@@ -1,5 +1,3 @@
-Here’s the README in English:
-
 # CLI for Interaction with AI Models
 
 This project is a command-line interface (CLI) that allows interaction with language models such as ChatGPT and other LLMs (Groq, Anthropic, etc.). It provides functionalities to send questions to the models, compare answers using different evaluation strategies, and log responses in different formats.
