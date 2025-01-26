@@ -1,70 +1,72 @@
-# CLI para interação com modelos de IA
+Here’s the README in English:
 
-Este projeto é uma interface de linha de comando (CLI) que permite a interação com modelos de linguagem de IA, como ChatGPT e Outras LLMs (Groq, Anthropic, etc). Ele oferece funcionalidades para enviar perguntas aos modelos, comparar respostas usando diferentes estratégias de avaliação e registrar as respostas em diferentes formatos.
+# CLI for Interaction with AI Models
 
-## Estrutura do Projeto
+This project is a command-line interface (CLI) that allows interaction with language models such as ChatGPT and other LLMs (Groq, Anthropic, etc.). It provides functionalities to send questions to the models, compare answers using different evaluation strategies, and log responses in different formats.
 
-O projeto é composto por vários módulos, cada um responsável por uma parte específica da funcionalidade:
+## Project Structure
 
-1. **`observers.py`**: Implementa o padrão de projeto Observer, permitindo que diferentes observadores sejam notificados sobre novas respostas dos modelos. Inclui observadores que exibem respostas no console, salvam em arquivos JSON e registram em logs.
+The project consists of several modules, each responsible for a specific part of the functionality:
 
-2. **`evaluation_strategy.py`**: Define estratégias de avaliação para comparar respostas dos modelos. As estratégias incluem contagem de palavras, similaridade semântica usando TF-IDF e similaridade de texto usando o algoritmo de sequência.
+1. **`observers.py`**: Implements the Observer design pattern, allowing different observers to be notified about new responses from the models. It includes observers that display responses on the console, save them to JSON files, and log them.
 
-3. **`commands.py`**: Implementa o padrão de projeto Command, permitindo que comandos sejam definidos e executados. Inclui um comando para enviar perguntas aos modelos de IA.
+2. **`evaluation_strategy.py`**: Defines evaluation strategies for comparing model responses. Strategies include word count, semantic similarity using TF-IDF, and text similarity using sequence alignment algorithms.
 
-4. **`cli.py`**: Contém a lógica principal da interface de linha de comando, incluindo a exibição de menus, a execução de comandos e a comparação de respostas.
+3. **`commands.py`**: Implements the Command design pattern, allowing commands to be defined and executed. It includes a command to send questions to AI models.
 
-5. **`api_connection.py`**: Define conexões com APIs de modelos de linguagem, incluindo ChatGPT e Groq. Utiliza o padrão de projeto Factory para criar instâncias de conexões com base no tipo de API.
+4. **`cli.py`**: Contains the main logic of the command-line interface, including menu displays, command execution, and response comparison.
 
-## Funcionalidades
+5. **`api_connection.py`**: Defines connections to language model APIs, including ChatGPT and Groq. It uses the Factory design pattern to create instances of connections based on the API type.
 
-### Observadores
+## Features
 
-- **ConsoleObserver**: Exibe as respostas dos modelos diretamente no console.
-- **FileObserver**: Salva as respostas em um arquivo JSON, permitindo o armazenamento persistente.
-- **LogObserver**: Registra as respostas em um arquivo de log, útil para auditoria e análise posterior.
+### Observers
 
-### Estratégias de Avaliação
+- **ConsoleObserver**: Displays model responses directly in the console.
+- **FileObserver**: Saves responses to a JSON file, allowing for persistent storage.
+- **LogObserver**: Logs responses to a log file, useful for auditing and later analysis.
 
-- **WordCountStrategy**: Compara respostas com base na contagem de palavras, fornecendo estatísticas básicas como diferença e razão de palavras.
-- **SemanticSimilarityStrategy**: Avalia a similaridade semântica entre respostas usando TF-IDF e similaridade do cosseno.
-- **TextSimilarityStrategy**: Compara respostas usando o algoritmo de sequência para determinar a similaridade de texto.
+### Evaluation Strategies
 
-### Comandos
+- **WordCountStrategy**: Compares responses based on word count, providing basic statistics such as difference and ratio of words.
+- **SemanticSimilarityStrategy**: Evaluates semantic similarity between responses using TF-IDF and cosine similarity.
+- **TextSimilarityStrategy**: Compares responses using sequence alignment algorithms to determine text similarity.
 
-- **AskModelCommand**: Envia uma pergunta a um modelo de IA e exibe a resposta. Utiliza a conexão com a API apropriada para o modelo escolhido.
+### Commands
+
+- **AskModelCommand**: Sends a question to an AI model and displays the response. It uses the appropriate API connection for the selected model.
 
 ### CLI
 
-- **Menu Principal**: Permite ao usuário escolher entre diferentes modelos de IA, comparar respostas ou sair do programa.
-- **Comparação de Respostas**: Compara as últimas respostas dos modelos usando todas as estratégias de avaliação disponíveis.
-- **Execução de Comandos**: Permite ao usuário enviar perguntas aos modelos e processar as respostas.
+- **Main Menu**: Allows the user to choose between different AI models, compare responses, or exit the program.
+- **Response Comparison**: Compares the latest responses from the models using all available evaluation strategies.
+- **Command Execution**: Allows the user to send questions to models and process responses.
 
-## Configuração
+## Setup
 
-O projeto utiliza variáveis de ambiente para armazenar chaves de API. As chaves devem ser definidas em um arquivo `.env` no diretório raiz do projeto:
+The project uses environment variables to store API keys. These keys should be defined in a `.env` file in the root directory of the project:
 
 ```
 OPENAI_API_KEY=your_openai_api_key
 GROQ_API_KEY=your_groq_api_key
 ```
 
-## Execução
+## Running the Application
 
-Para executar a CLI, basta rodar o script `cli.py`:
+To run the CLI, simply execute the `cli.py` script:
 
 ```bash
 python cli.py
 ```
 
-Certifique-se de que todas as dependências estão instaladas e que as chaves de API estão configuradas corretamente.
+Make sure all dependencies are installed and that the API keys are configured correctly.
 
-## Dependências
+## Dependencies
 
 - Python 3.x
-- Bibliotecas: `requests`, `nltk`, `sklearn`, `numpy`, `dotenv`
-- Recursos NLTK: `punkt`, `stopwords`
+- Libraries: `requests`, `nltk`, `sklearn`, `numpy`, `dotenv`
+- NLTK Resources: `punkt`, `stopwords`
 
-## Contribuição
+## Contribution
 
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou enviar pull requests para melhorias e correções.
+Contributions are welcome! Feel free to open issues or submit pull requests for improvements and fixes.
