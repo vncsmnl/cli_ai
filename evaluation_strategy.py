@@ -60,9 +60,14 @@ class SemanticSimilarityStrategy(EvaluationStrategy):
 
     def evaluate(self, response1: str, response2: str) -> Dict[str, Any]:
         """
-        Avalia respostas usando TF-IDF e similaridade do cosseno.
+        Avalia respostas usando TF-IDF e similaridade do cosseno,
+        removendo stopwords antes da análise.
         """
-        vectorizer = TfidfVectorizer()
+        # Obtém stopwords em português
+        stop_words = set(stopwords.words('portuguese'))
+
+        # Configura o vectorizer para remover stopwords
+        vectorizer = TfidfVectorizer(stop_words=list(stopwords.words("portuguese")))
         tfidf_matrix = vectorizer.fit_transform([response1, response2])
         similarity = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])[0][0]
 
