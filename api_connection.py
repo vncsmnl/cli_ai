@@ -51,43 +51,20 @@ class BaseAPIConnection(APIConnection):
     Classe base que contém a lógica comum para enviar requisições a APIs.
     """
 
-    def send_request(self, prompt: str, **kwargs: Any) -> Dict[str, Any]:
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-
-        data = {
-            "model": self.model,
-            "messages": [{"role": "user", "content": prompt}],
-            **kwargs
-        }
-
-        response = requests.post(self.base_url, headers=headers, json=data)
-        response.raise_for_status()  # Levanta uma exceção em caso de erro na requisição
-        return response.json()
-
-
-class ChatGPTConnection(BaseAPIConnection):
-    """
-    Implementação da conexão com a API do ChatGPT.
-    """
-
-    def __init__(self, api_key: str, model: str = "gpt-4o-mini") -> None:
+    def __init__(self, api_key: str, model: str) -> None:
         """
-        Inicializa a conexão com a API do ChatGPT.
+        Inicializa a conexão com a API.
 
         Args:
-            api_key (str): Chave de API do OpenAI
-            model (str, optional): Modelo a ser usado. Defaults to "gpt-4o-mini"
+            api_key (str): Chave de API
+            model (str): Modelo a ser usado
         """
         self.api_key = api_key
         self.model = model
-        self.client = OpenAI(api_key=api_key)
 
     def send_request(self, prompt: str, **kwargs: Any) -> Dict[str, Any]:
         """
-        Envia uma requisição para a API do ChatGPT.
+        Envia uma requisição para a API.
 
         Args:
             prompt (str): O texto de entrada para o modelo
@@ -104,66 +81,12 @@ class ChatGPTConnection(BaseAPIConnection):
             )
             return completion
         except Exception as e:
-            print(f"Erro ao enviar requisição para o ChatGPT: {str(e)}")
-            return {}
-
-    def get_response(self, response: Dict[str, Any]) -> str:
-        try:
-            return response.choices[0].message.content
-        except AttributeError as e:
-            print(f"Erro ao acessar atributos da resposta: {str(e)}")
-            return ""
-        except Exception as e:
-            print(f"Erro inesperado ao processar a resposta: {str(e)}")
-            return ""
-
-
-class GroqConnection(BaseAPIConnection):
-    """
-    Implementação da conexão com a API do Groq.
-    """
-
-    def __init__(self, api_key: str, model: str = "llama-3.1-8b-instant") -> None:
-        """
-        Inicializa a conexão com a API do Groq.
-
-        Args:
-            api_key (str): Chave de API do serviço Groq
-            model (str, optional): Modelo a ser usado. Defaults to "llama-3.1-8b-instant"
-        """
-        self.api_key = api_key
-        self.model = model
-        self.client = Groq(api_key=api_key)
-
-    def send_request(self, prompt: str, **kwargs: Any) -> Dict[str, Any]:
-        """
-        Envia uma requisição para a API do Groq.
-
-        Args:
-            prompt (str): O texto de entrada para o modelo
-            **kwargs: Argumentos adicionais específicos da API
-
-        Returns:
-            Dict[str, Any]: Resposta da API em formato de dicionário
-        """
-        try:
-            completion = self.client.chat.completions.create(
-                model=self.model,
-                messages=[{"role": "user", "content": prompt}],
-                temperature=kwargs.get('temperature', 1),
-                max_completion_tokens=kwargs.get('max_completion_tokens', 1024),
-                top_p=kwargs.get('top_p', 1),
-                stream=False,
-                stop=kwargs.get('stop', None)
-            )
-            return completion
-        except Exception as e:
-            print(f"Erro ao enviar requisição para o Groq: {str(e)}")
+            print(f"Erro ao enviar requisição para a API: {str(e)}")
             return {}
 
     def get_response(self, response: Dict[str, Any]) -> str:
         """
-        Processa a resposta da API do Groq e extrai o conteúdo gerado.
+        Processa a resposta da API e extrai o conteúdo gerado.
 
         Args:
             response (Dict[str, Any]): Resposta da API em formato de dicionário
@@ -179,6 +102,40 @@ class GroqConnection(BaseAPIConnection):
         except Exception as e:
             print(f"Erro inesperado ao processar a resposta: {str(e)}")
             return ""
+
+
+class ChatGPTConnection(BaseAPIConnection):
+    """
+    Implementação da conexão com a API do ChatGPT.
+    """
+
+    def __init__(self, api_key: str, model: str = "gpt-4o-mini") -> None:
+        """
+        Inicializa a conexão com a API do ChatGPT.
+
+        Args:
+            api_key (str): Chave de API do OpenAI
+            model (str, optional): Modelo a ser usado. Defaults to "gpt-4o-mini"
+        """
+        super().__init__(api_key, model)
+        self.client = OpenAI(api_key=api_key)
+
+
+class GroqConnection(BaseAPIConnection):
+    """
+    Implementação da conexão com a API do Groq.
+    """
+
+    def __init__(self, api_key: str, model: str = "llama-3.1-8b-instant") -> None:
+        """
+        Inicializa a conexão com a API do Groq.
+
+        Args:
+            api_key (str): Chave de API do serviço Groq
+            model (str, optional): Modelo a ser usado. Defaults to "llama-3.1-8b-instant"
+        """
+        super().__init__(api_key, model)
+        self.client = Groq(api_key=api_key)
 
 
 class APIConnectionFactory:
