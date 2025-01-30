@@ -126,7 +126,7 @@ class GroqConnection(BaseAPIConnection):
     Implementação da conexão com a API do Groq.
     """
 
-    def __init__(self, api_key: str, model: str = "llama-3.1-8b-instant") -> None:
+    def __init__(self, api_key: str, model: str = "deepseek-r1-distill-llama-70b") -> None:
         """
         Inicializa a conexão com a API do Groq.
 
